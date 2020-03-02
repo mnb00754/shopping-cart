@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default"><i onclick="DecrementAmount('$1219','txtAmount1','txtCounter1')" class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center" id="txtCounter1" value="1">
+                           <button class="btn btn-default"><i  onclick="IncreaseAmount('$1219','txtAmount1','txtCounter1')" class="fas fa-plus"></i></button>
+                        </div>
+                        <h5 id="txtAmount1">$1219</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default"><i onclick="DecrementAmount('$59','txtAmount2','txtCounter2')" class="fas fa-minus"></i></button>
+                           <input type="text" class="form-control text-center" id="txtCounter2" value="1">
+                           <button class="btn btn-default"><i onclick="IncreaseAmount('$59','txtAmount2','txtCounter2')" class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5 id="txtAmount2">$59</h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5 id="txtSubTotalAmount">$00</h5>
+                        <h5 id="txtTaxAmount">$00</h5>
+                        <h5 id="txtTotalAmount">$00</h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <script>
+   function IncreaseAmount(Amount,AmountID,CounterID)
+   {
+		
+		var txtCounter1 = document.getElementById(CounterID).value;
+		var count1= parseInt(txtCounter1);
+		count1 = count1+1;
+		document.getElementById(CounterID).value = count1;
+		
+		var AmountNumber = Amount.split('$');
+		AmountNumber = AmountNumber[1];
+		AmountNumber = parseInt(AmountNumber);
+		
+		var Multiple = count1*AmountNumber;
+		document.getElementById(AmountID).innerHTML = "$"+Multiple;
+
+		TotalAmount();
+   }
+   
+   function DecrementAmount(OrginalAmount,AmountID,CounterID)
+   {
+		var FirstAmount = OrginalAmount.split('$');
+		FirstAmount = FirstAmount[1];
+		FirstAmount = parseInt(FirstAmount);
+		var Amount = document.getElementById(AmountID).textContent;
+		
+		var txtCounter1 = document.getElementById(CounterID).value;
+		var count1= parseInt(txtCounter1);
+		if(count1>1)
+		{
+			count1 = count1-1;
+			document.getElementById(CounterID).value = count1;
+		
+			var AmountNumber = Amount.split('$');
+			AmountNumber = AmountNumber[1];
+			AmountNumber = parseInt(AmountNumber);
+						
+			var DicreaseAmount = AmountNumber/FirstAmount;
+			var DueAmount = AmountNumber/DicreaseAmount;
+			var DueLastAmount = AmountNumber-DueAmount;
+			document.getElementById(AmountID).innerHTML = "$"+DueLastAmount; 
+			
+			TotalAmount();
+		}	
+   }
+   
+   function TotalAmount()
+   {
+		var Amount1 = document.getElementById('txtAmount1').textContent;
+		var Amount2 = document.getElementById('txtAmount2').textContent;
+
+		var TaxAmount = document.getElementById('txtTaxAmount').textContent;
+		var TaxNumber = TaxAmount.split('$');
+		TaxNumber = TaxNumber[1];
+		TaxNumber = parseInt(TaxNumber);
+		
+		var AmountNumber1 = Amount1.split('$');
+		AmountNumber1 = AmountNumber1[1];
+		AmountNumber1 = parseInt(AmountNumber1);
+		
+		var AmountNumber2 = Amount2.split('$');
+		AmountNumber2 = AmountNumber2[1];
+		AmountNumber2 = parseInt(AmountNumber2);
+		
+		var TotalSubAmount = AmountNumber1+AmountNumber2;
+		var TotalAmount = AmountNumber1+AmountNumber2+TaxNumber;
+		
+		document.getElementById('txtSubTotalAmount').innerHTML = "$"+TotalSubAmount; 
+		document.getElementById('txtTotalAmount').innerHTML = "$"+TotalAmount; 
+	}
+   </script>
+</body>
+
+</html>
